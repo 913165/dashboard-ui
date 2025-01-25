@@ -1,37 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# API Key Management System
 
-## Getting Started
+## Project Overview
+A full-stack API Key Management application built with Next.js (frontend) and FastAPI (backend), featuring user authentication and API key generation.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Project Structure
+```
+.
+├── frontend/
+│   ├── app/
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   └── ...
+│   │   ├── api-key-table.tsx
+│   │   ├── create-key-dialog.tsx
+│   │   └── login-form.tsx
+│   ├── lib/
+│   │   └── api.ts
+│   ├── types/
+│   │   └── index.ts
+│   ├── styles/
+│   │   └── globals.css
+│   ├── next.config.js
+│   ├── package.json
+│   └── tsconfig.json
+└── backend/
+    ├── app/
+    │   ├── api/
+    │   │   ├── deps.py
+    │   │   └── v1/
+    │   │       └── endpoints/
+    │   ├── core/
+    │   │   └── security.py
+    │   ├── db/
+    │   │   ├── base.py
+    │   │   └── session.py
+    │   ├── models/
+    │   │   ├── user.py
+    │   │   └── api_key.py
+    │   └── schemas/
+    │       ├── user.py
+    │       └── api_key.py
+    ├── alembic/
+    │   ├── versions/
+    │   └── env.py
+    ├── requirements.txt
+    └── main.py
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
+- Node.js (v18+)
+- Python (v3.9+)
+- PostgreSQL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Backend Setup
+1. Create virtual environment
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-## Learn More
+3. Database Configuration
+- Create PostgreSQL database
+- Update database connection in `backend/app/core/config.py`
 
-To learn more about Next.js, take a look at the following resources:
+4. Run Migrations
+```bash
+alembic upgrade head
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Start Backend Server
+```bash
+uvicorn app.main:app --reload
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Frontend Setup
+1. Install dependencies
+```bash
+npm install
+```
 
-## Deploy on Vercel
+2. Run Development Server
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Features
+- User Authentication
+- API Key Generation
+- API Key Management
+- Secure Token-based Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# dashboard-ui
+## Environment Variables
+Create `.env` files in both frontend and backend:
+
+### Backend `.env`
+```
+DATABASE_URL=postgresql://user:password@localhost/api_key_manager
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+```
+
+### Frontend `.env`
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+```
+
+## Authentication Flow
+1. User logs in with email/password
+2. Backend generates JWT token
+3. Token stored in localStorage
+4. Protected routes require valid token
+
+## Technologies
+- Frontend: Next.js, TypeScript, Tailwind CSS
+- Backend: FastAPI, SQLAlchemy, Alembic
+- Database: PostgreSQL
+- Authentication: JWT
+
+## Security Considerations
+- Password hashing
+- JWT token authentication
+- CORS configuration
+- Environment-based configuration
+
+## Contributing
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
+
+## License
+MIT License
+```
