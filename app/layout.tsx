@@ -1,8 +1,10 @@
+'uaw client'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import { Sidebar } from '@/components/sidebar'
 import { ThemeProvider } from '@/lib/theme-context'
 import { ThemeToggle } from '@/components/theme-toggle'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,14 +19,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen`}>
+    <html lang="en" suppressHydrationWarning className="light">
+      <body className={`${inter.className} min-h-screen bg-background text-foreground`}>
         <ThemeProvider>
-          <div className="dark:bg-gray-900 dark:text-white min-h-screen">
-            <header className="p-4 flex justify-end">
-              <ThemeToggle />
-            </header>
-            {children}
+          <div className="flex">
+            <Sidebar />
+            <main className="md:pl-64 w-full min-h-screen">
+              <header className="p-4 flex justify-end">
+                <ThemeToggle />
+              </header>
+              {children}
+            </main>
           </div>
         </ThemeProvider>
       </body>
