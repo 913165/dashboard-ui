@@ -28,6 +28,7 @@ export function LoginForm() {
             const data = await response.json()
             localStorage.setItem('token', data.access_token)
             router.push('/dashboard')
+
         } catch (error) {
             console.error(error)
             if (error instanceof Error) {

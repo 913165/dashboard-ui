@@ -1,4 +1,3 @@
-// app/dashboard/page.tsx
 "use client"
 
 import { useEffect } from "react"
@@ -24,7 +23,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto p-8">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">Dashboard</h1>
-                <Button className="text-black" variant="outline" onClick={handleLogout}>
+                <Button variant="outline" onClick={handleLogout}>
                     Logout
                 </Button>
             </div>
