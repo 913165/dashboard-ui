@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import {
-  LayoutDashboard,
+
   Key,
   Settings,
   Users,
@@ -11,13 +11,9 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const sidebarNavItems = [
+
   {
-    href: "/dashboard",
-    icon: LayoutDashboard,
-    label: "Dashboard"
-  },
-  {
-    href: "/api-keys",
+    href: "/dashboard/api-keys",
     icon: Key,
     label: "API Keys"
   },
@@ -50,7 +46,7 @@ export function Sidebar() {
             href={item.href}
             className={cn(
               "flex items-center p-3 rounded-lg transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700",
-              pathname === item.href
+              pathname.startsWith(item.href)
                 ? "bg-primary/10 text-primary dark:bg-primary/20"
                 : "text-gray-600 dark:text-gray-300"
             )}

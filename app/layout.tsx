@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import { ThemeProvider } from '@/lib/theme-context'
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import './globals.css'
 
 const Sidebar = dynamic(() => import('@/components/sidebar').then(mod => mod.Sidebar), { ssr: false })
@@ -19,11 +19,29 @@ export default function RootLayout({
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    setIsLoggedIn(!!token)
-  }, [])
+    const checkToken = () => {
+      const token = localStorage.getItem('token')
+      setIsLoggedIn(!!token)
+
+      // Redirect to login if no token and trying to access dashboard
+      if (!token && pathname?.startsWith('/dashboard')) {
+        router.push('/')
+      }
+    }
+
+    // Check token initially
+    checkToken()
+
+    // Add event listener for storage changes
+    window.addEventListener('storage', checkToken)
+
+    return () => {
+      window.removeEventListener('storage', checkToken)
+    }
+  }, [pathname, router])
 
   // Check if the current path is in the dashboard
   const isDashboardRoute = pathname?.startsWith('/dashboard')
