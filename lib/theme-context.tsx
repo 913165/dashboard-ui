@@ -27,6 +27,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update localStorage and apply theme
   useEffect(() => {
+
+
     localStorage.setItem('theme', theme)
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.classList.add(theme)
